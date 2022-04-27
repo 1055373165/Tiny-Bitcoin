@@ -1,0 +1,5 @@
+.idea
+my.db
+wallet_*.dat
+blockchain_*.db
+blockchain_genesis.db
