@@ -33,6 +33,7 @@ cp blockchain_3000.db blockchain_genesis.db
 ```
 
 **3 New Node 3001**
+
 打开一个新的终端窗口，设置节点ID为 3001，作为一个钱包节点使用，因此我们生成一些地址：    
 
 ```go
