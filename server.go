@@ -76,7 +76,7 @@ func bytesToCommand(bytes []byte) string {
 		}
 	}
 
-	return fmt.Sprintf("%s", command)
+	return string(command)
 }
 
 func extractCommand(request []byte) []byte {

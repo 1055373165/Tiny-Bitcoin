@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/elliptic"
 	"encoding/gob"
 	"fmt"
 	"io/ioutil"
@@ -30,7 +29,7 @@ func NewWallets(nodeID string) (*Wallets, error) {
 // CreateWallet adds a Wallet to Wallets
 func (ws *Wallets) CreateWallet() string {
 	wallet := NewWallet()
-	address := fmt.Sprintf("%s", wallet.GetAddress())
+	address := string(wallet.GetAddress())
 
 	ws.Wallets[address] = wallet
 
@@ -66,7 +65,7 @@ func (ws *Wallets) LoadFromFile(nodeID string) error {
 	}
 
 	var wallets Wallets
-	gob.Register(elliptic.P256())
+
 	decoder := gob.NewDecoder(bytes.NewReader(fileContent))
 	err = decoder.Decode(&wallets)
 	if err != nil {
@@ -82,8 +81,6 @@ func (ws *Wallets) LoadFromFile(nodeID string) error {
 func (ws Wallets) SaveToFile(nodeID string) {
 	var content bytes.Buffer
 	walletFile := fmt.Sprintf(walletFile, nodeID)
-
-	gob.Register(elliptic.P256())
 
 	encoder := gob.NewEncoder(&content)
 	err := encoder.Encode(ws)

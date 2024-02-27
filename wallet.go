@@ -6,6 +6,9 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
+	"crypto/x509"
+	"encoding/pem"
+	"errors"
 	"log"
 
 	"golang.org/x/crypto/ripemd160"
@@ -16,14 +19,40 @@ const addressChecksumLen = 4
 
 // Wallet stores private and public keys
 type Wallet struct {
-	PrivateKey ecdsa.PrivateKey
+	PrivateKey string
 	PublicKey  []byte
+}
+
+// SerializePrivateKey 将私钥序列化为字符串
+func SerializePrivateKey(key *ecdsa.PrivateKey) (string, error) {
+	der, err := x509.MarshalECPrivateKey(key)
+	if err != nil {
+		return "", err
+	}
+	block := &pem.Block{Type: "EC PRIVATE KEY", Bytes: der}
+	return string(pem.EncodeToMemory(block)), nil
+}
+
+// DeserializePrivateKey 将字符串反序列化为私钥
+func DeserializePrivateKey(str string) (*ecdsa.PrivateKey, error) {
+	block, _ := pem.Decode([]byte(str))
+	if block == nil {
+		return nil, errors.New("failed to decode PEM block containing private key")
+	}
+
+	key, err := x509.ParseECPrivateKey(block.Bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return key, nil
 }
 
 // NewWallet creates and returns a Wallet
 func NewWallet() *Wallet {
 	private, public := newKeyPair()
-	wallet := Wallet{private, public}
+	privateStr, _ := SerializePrivateKey(&private)
+	wallet := Wallet{privateStr, public}
 
 	return &wallet
 }
@@ -63,7 +92,7 @@ func ValidateAddress(address string) bool {
 	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-addressChecksumLen]
 	targetChecksum := checksum(append([]byte{version}, pubKeyHash...))
 
-	return bytes.Compare(actualChecksum, targetChecksum) == 0
+	return bytes.Equal(actualChecksum, targetChecksum)
 }
 
 // Checksum generates a checksum for a public key
