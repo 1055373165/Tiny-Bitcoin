@@ -52,9 +52,9 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	nonce := 0
 
 	fmt.Printf("Mining a new block")
+
 	for nonce < maxNonce {
 		data := pow.prepareData(nonce)
-
 		hash = sha256.Sum256(data)
 		fmt.Printf("\r%x", hash)
 		hashInt.SetBytes(hash[:])
@@ -66,7 +66,6 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		}
 	}
 	fmt.Print("\n\n")
-
 	return nonce, hash[:]
 }
 
