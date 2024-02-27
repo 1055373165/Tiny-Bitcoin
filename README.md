@@ -94,6 +94,7 @@ cp blockchain_genesis.db blockchain_3001.db
 发现不仅包含 3001 节点生成地址的余额，而且还包含中央节点的余额，而且值和中央节点同步。
 
 **4 New Node 3002**
+
 更进一步，打开一个新的终端窗口，将其 ID 设置为 3002，并生成一个钱包，它将作为 一个矿工节点运行。
 
 ```go
@@ -114,6 +115,7 @@ Recevied inventory with 4 block
 ```
 
 **5 测试网络通信是否正常**
+
 1. 停止 3001，使用 3001 的一个地址给 3002 发送一些比特币；
 2. 重启启动 3001 节点，中央节点通过 version 请求发现新的区块，通过 inv 请求获取最新区块；               
 3. 切换到 3002 矿工节点，重新启动从中央节点拉取最新区块，三个节点完成状态同步。       
@@ -135,6 +137,7 @@ Recevied inventory with 4 block
 ```
 
 **Bug 描述**
+
 gob: type not registered for interface: elliptic.p256Curve 
 panic: gob: type not registered for interface: elliptic.p256Curve
 
