@@ -148,4 +148,5 @@ panic: gob: type not registered for interface: elliptic.p256Curve
 可以通过将 ecdsa.PrivateKey 转换为一种可序列化的格式来绕过这个问题，例如，将密钥转换为 PEM 或 DER 格式的字符串，然后序列化字符串。在反序列化时，再将字符串转换回 ecdsa.PrivateKey。
 
 **项目分析**
+
 个人空间链接：https://www.notion.so/blockchainsee/faf5ec9c0cb54d26aa5ba7866298895f
