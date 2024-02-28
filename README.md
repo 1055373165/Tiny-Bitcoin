@@ -146,3 +146,6 @@ panic: gob: type not registered for interface: elliptic.p256Curve
 由于 go 1.8 之后 elliptic.p256Curve 直接用作 ecdsa.PrivateKey 中的一部分，且该类型未导出，我们需要找到一个替代方案来序列化和反序列化包含 ecdsa.PrivateKey 的结构。
 
 可以通过将 ecdsa.PrivateKey 转换为一种可序列化的格式来绕过这个问题，例如，将密钥转换为 PEM 或 DER 格式的字符串，然后序列化字符串。在反序列化时，再将字符串转换回 ecdsa.PrivateKey。
+
+**项目分析**
+个人空间链接：https://www.notion.so/blockchainsee/faf5ec9c0cb54d26aa5ba7866298895f
