@@ -16,14 +16,15 @@ go build -o btc
 ./btc createwallet
 ```
 
-得到 address1: 1E5RvKYgarMN1N2PEcwPxX8XiziCtoj8cW
+得到 address1: 1E5RvKYgarMN1N2PEcwPxX8XiziCtoxxxx
 
 初次调用 createwallet 的地址才拥有初始奖励（10BTC）一旦钱包文件创建出来，后面生成的钱包中默认都是 0 个 BTC。（生成钱包文件：wallet_3000.dat）
 
 **2 使用该地址创建区块链**
 
 ```go
-./btc createblockchain -address 1E5RvKYgarMN1N2PEcwPxX8XiziCtoj8cW
+// 将地址修改为上面新生成的地址
+./btc createblockchain -address 1E5RvKYgarMN1N2PEcwPxX8XiziCtoxxxx
 ```
 
 我们需要保存单个创世块并在其他节点中使用它，创世块用作区块链的标识符（在 bitcoin-core 中，创世块是硬编码的）。
